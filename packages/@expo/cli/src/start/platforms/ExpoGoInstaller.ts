@@ -25,7 +25,7 @@ export class ExpoGoInstaller<IDevice> {
   ) {}
 
   /** Returns true if the installed app matching the previously provided `appId` is outdated. */
-  async isClientOutdatedAsync(device: DeviceManager<IDevice>): Promise<boolean> {
+  async isInstalledClientVersionMismatchedAsync(device: DeviceManager<IDevice>): Promise<boolean> {
     const installedVersion = await device.getAppVersionAsync(this.appId);
     if (!installedVersion) {
       return true;
@@ -46,7 +46,9 @@ export class ExpoGoInstaller<IDevice> {
   }
 
   /** Returns a boolean indicating if Expo Go should be installed. Returns `true` if the app was uninstalled. */
-  async uninstallExpoGoIfOutdatedAsync(deviceManager: DeviceManager<IDevice>): Promise<boolean> {
+  async promptForUninstallExpoGoIfInstalledClientVersionMismatchedAndReturnShouldInstallAsync(
+    deviceManager: DeviceManager<IDevice>
+  ): Promise<boolean> {
     const cacheId = `${this.platform}-${deviceManager.identifier}`;
 
     if (ExpoGoInstaller.cache[cacheId]) {
@@ -55,7 +57,7 @@ export class ExpoGoInstaller<IDevice> {
     }
     ExpoGoInstaller.cache[cacheId] = true;
 
-    if (await this.isClientOutdatedAsync(deviceManager)) {
+    if (await this.isInstalledClientVersionMismatchedAsync(deviceManager)) {
       if (this.sdkVersion === 'UNVERSIONED') {
         // This should only happen in the expo/expo repo, e.g. `apps/test-suite`
         Log.log(
@@ -67,7 +69,7 @@ export class ExpoGoInstaller<IDevice> {
       // Only prompt once per device, per run.
       const confirm = await confirmAsync({
         initial: true,
-        message: `Expo Go on ${deviceManager.name} is outdated, would you like to upgrade?`,
+        message: `Expo Go on ${deviceManager.name} is not compatible with this project's SDK version. Would you like to install a compatible Expo Go?`,
       });
       if (confirm) {
         // Don't need to uninstall to update on iOS.
@@ -97,7 +99,10 @@ export class ExpoGoInstaller<IDevice> {
     }
 
     if (!shouldInstall) {
-      shouldInstall = await this.uninstallExpoGoIfOutdatedAsync(deviceManager);
+      shouldInstall =
+        await this.promptForUninstallExpoGoIfInstalledClientVersionMismatchedAndReturnShouldInstallAsync(
+          deviceManager
+        );
     }
 
     if (shouldInstall) {
