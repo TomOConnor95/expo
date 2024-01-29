@@ -12,6 +12,10 @@
 
 - Update auth session URL to prompt user to select account. ([#26780](https://github.com/expo/expo/pull/26780) by [@gabrieldonadel](https://github.com/gabrieldonadel))
 
+### 📚 3rd party library updates
+
+- Update react-native to 0.73.3. ([#26774](https://github.com/expo/expo/pull/26774) by [@gabrieldonadel](https://github.com/gabrieldonadel))
+
 ## 3.6.5 — 2024-01-26
 
 _This version does not introduce any user-facing changes._
