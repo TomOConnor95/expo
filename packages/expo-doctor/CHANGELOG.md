@@ -6,6 +6,8 @@
 
 ### 🎉 New features
 
+- Look for metro-config in deep dependency check, warn if inside resolutions. ([#26854](https://github.com/expo/expo/pull/26854) by [@keith-kurak](https://github.com/keith-kurak))
+
 ### 🐛 Bug fixes
 
 ### 💡 Others
