@@ -327,7 +327,7 @@ export type CameraProps = ViewProps & {
   /**
    * @example
    * ```tsx
-   * <Camera
+   * <CameraView
    *   barCodeScannerSettings={{
    *     barcodeTypes: ["qr"],
    *   }}
