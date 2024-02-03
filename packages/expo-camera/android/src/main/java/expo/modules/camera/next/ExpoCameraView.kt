@@ -330,7 +330,7 @@ class ExpoCameraView(
     createCamera()
   }
 
-  fun setBarCodeScannerSettings(settings: BarcodeSettings?) {
+  fun setBarcodeScannerSettings(settings: BarcodeSettings?) {
     barcodeFormats = settings?.barcodeTypes ?: emptyList()
   }
 
